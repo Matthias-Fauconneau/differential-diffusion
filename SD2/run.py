@@ -28,10 +28,10 @@ def preprocess_map(map):
     return map
 
 
-with Image.open("assets/input.jpg") as imageFile:
+with Image.open("/run/user/1000/input.png") as imageFile:
     image = preprocess_image(imageFile)
 
-with Image.open("assets/map.jpg") as mapFile:
+with Image.open("/run/user/1000/mask.png") as mapFile:
     map = preprocess_map(mapFile)
 
 edited_image = \
