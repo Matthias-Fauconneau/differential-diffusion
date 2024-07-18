@@ -38,10 +38,10 @@ def preprocess_map(map):
     return map
 
 
-with Image.open("assets/input2.jpg") as imageFile:
+with Image.open("/run/user/1000/input.png") as imageFile:
     image = preprocess_image(imageFile)
 
-with Image.open("assets/map2.jpg") as mapFile:
+with Image.open("/run/user/1000/mask.png") as mapFile:
     map = preprocess_map(mapFile)
 
 prompt = ["painting of a mountain landscape with a meadow and a forest, meadow background"]

@@ -1,3 +1,4 @@
+#!/bin/env python
 import torch
 from PIL import Image
 from torchvision import transforms
@@ -14,7 +15,7 @@ def preprocess_image(image):
     image = image.convert("RGB")
     image = transforms.CenterCrop((image.size[1] // 64 * 64, image.size[0] // 64 * 64))(image)
     image = transforms.ToTensor()(image)
-    image = image * 2 - 1
+    image = image * 2. - 1.
     image = image.unsqueeze(0).to(device)
     return image
 
@@ -32,13 +33,13 @@ with Image.open("/run/user/1000/input.png") as imageFile:
     image = preprocess_image(imageFile)
 
 with Image.open("/run/user/1000/mask.png") as mapFile:
-    map = preprocess_map(mapFile)
+    map = 1. - preprocess_map(mapFile) * 5 / 9.
 
-edited_image = \
-pipe(prompt=["painting of a mountain landscape with a meadow and a forest, meadow background"], image=image,
+prompt=['']
+prompt=["night sky over pine forest"]
+negative_prompt=['']
+#negative_prompt=["blurry, shadow polaroid photo, scary angry pose"]
+pipe(prompt=prompt, image=image,
      guidance_scale=7,
      num_images_per_prompt=1,
-     negative_prompt=["blurry, shadow polaroid photo, scary angry pose"], map=map, num_inference_steps=100).images[0]
-edited_image.save("output.png")
-
-print("Done!")
+     negative_prompt=negative_prompt, map=map, num_inference_steps=100).images[0].save("/run/user/1000/output.png")
