@@ -29,17 +29,12 @@ def preprocess_map(map):
     return map
 
 
-with Image.open("/run/user/1000/input.png") as imageFile:
+with Image.open("MAT.png") as imageFile:
     image = preprocess_image(imageFile)
 
-with Image.open("/run/user/1000/mask.png") as mapFile:
+with Image.open("mask.png") as mapFile:
     map = 1. - preprocess_map(mapFile) * 5 / 9.
 
-prompt=['']
-prompt=["night sky over pine forest"]
-negative_prompt=['']
-#negative_prompt=["blurry, shadow polaroid photo, scary angry pose"]
-pipe(prompt=prompt, image=image,
-     guidance_scale=7,
-     num_images_per_prompt=1,
-     negative_prompt=negative_prompt, map=map, num_inference_steps=100).images[0].save("/run/user/1000/output.png")
+prompt=['night sky over a meadow']
+negative_prompt=['text, watermark, signature, caption, people']
+pipe(prompt=prompt, image=image, num_images_per_prompt=1, negative_prompt=negative_prompt, map=map, num_inference_steps=20).images[0].save("output.png")
