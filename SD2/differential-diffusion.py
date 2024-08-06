@@ -27,11 +27,11 @@ def preprocess_map(map):
 
 def inpaint(pipeline):
 	image = preprocess_image(Image.open("/run/user/1000/input.png"))
-	map = 1. - preprocess_map(Image.open("/run/user/1000/mask.png")) * 9. / 9.
+	map = 1. - preprocess_map(Image.open("/run/user/1000/mask.png")) * 4. / 5.
 
 	prompt=['']
 	#prompt=['night sky over a dark pine forest and meadow']
 	prompt=['night sky over a meadow']
-	negative_prompt=['text, watermark, signature, caption, people']
+	negative_prompt=['text, watermark, signature, caption, people, moon']
 	#negative_prompt=["blurry, shadow polaroid photo, scary angry pose"]
-	pipeline(prompt=prompt, image=image, num_images_per_prompt=1, negative_prompt=negative_prompt, map=map, num_inference_steps=20, guidance_scale=2).images[0].save("/run/user/1000/output.png")
+	pipeline(prompt=prompt, image=image, num_images_per_prompt=1, negative_prompt=negative_prompt, map=map, num_inference_steps=12, guidance_scale=1).images[0].save("/run/user/1000/output.png")
